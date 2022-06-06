@@ -48,6 +48,7 @@ app.get("/private", (req, res) => {
       return;
     }
     // here we know that the token is valid....
+    // we can check and see if decoded.id for example is the user that can update this record in the database
     res.send(`Welcome ${decoded.email}!`);
   });
 });

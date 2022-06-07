@@ -24,32 +24,34 @@ app.post("/login", (req, res) => {
     (user) => user.email === email && user.password === password
   );
   if (!user) {
-    res.status(401).send("Invalid email or password");
+    res.status(401).send({ error: "Invalid email or password" });
     return;
   }
   user.password = undefined; // remove password from the user object
   // now we want to sign / create a token...
   const token = jwt.sign(user, mySecretKey, { expiresIn: "1h" }); //expires is optional
-  res.send(token); // {id: 1, email: "arthur@bocacode.com"}
+  res.send({ token }); // {id: 1, email: "arthur@bocacode.com"}
 });
 app.get("/public", (req, res) => {
-  res.send("Welcome!"); // anyone can see this
+  res.send({ message: "Welcome!" }); // anyone can see this
 });
 app.get("/private", (req, res) => {
   // lets require a valid token to see this
   const token = req.headers.authorization || "";
   if (!token) {
-    res.status(401).send("You must be logged in to see this");
+    res.status(401).send({ error: "You must be logged in to see this" });
     return;
   }
   jwt.verify(token, mySecretKey, (err, decoded) => {
     if (err) {
-      res.status(401).send("You must use a valid token to see this");
+      res
+        .status(401)
+        .send({ error: "You must use a valid token to see this" + err });
       return;
     }
     // here we know that the token is valid....
     // we can check and see if decoded.id for example is the user that can update this record in the database
-    res.send(`Welcome ${decoded.email}!`);
+    res.send({ message: `Welcome ${decoded.email}!` });
   });
 });
 

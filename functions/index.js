@@ -6,7 +6,11 @@ import mySecretKey from "./secret.js";
 
 const users = [
   // fake database
-  { id: 1, email: "arthur@bocacode.com", password: "abc123" },
+  {
+    id: 1,
+    email: "arthur@bocacode.com",
+    password: "$2b$10$3c22hEeSjfAnsuZ76BHS0OzkeNj4gtZ3rWXX9a/Sq0hUjNWG50l.K",
+  },
   { id: 2, email: "damian@bocacode.com", password: "def456" },
   { id: 3, email: "vitoria@bocacode.com", password: "ghi789" },
 ];
